@@ -11,13 +11,48 @@
     "href": "aboutme.html",
     "title": "About me",
     "section": "",
-    "text": "Add some text and a figure describing myself.\nFor details, see the instructions."
+    "text": "Hello! My name is Nalany Richardson and I am a 2nd year Masters student in the University of Georgia’s Comparative Biomedical Sciences department, in the College of Veterinary Medicine, in the Dan Peach Lab. I am currently based at the Savannah River Ecology Lab in Jackson, South Carolina.\nI am a 2nd year Masters student in the University of Georgia’s Comparative Biomedical Sciences department, in the College of Veterinary Medicine, in the Dan Peach Lab. I am currently based at the Savannah River Ecology Lab in Jackson, South Carolina."
+  },
+  {
+    "objectID": "aboutme.html#current-research-and-interests",
+    "href": "aboutme.html#current-research-and-interests",
+    "title": "About me",
+    "section": "Current Research and Interests 🦟 🛑",
+    "text": "Current Research and Interests 🦟 🛑\nMy current research looks to determine how ornithophilic (‘bird-loving’) mosquitoes such as Culiseta melanura and Culex spp. specifically seek out avian hosts as these interactions can lead to transmission of highly lethal viruses such as Eastern Equine Encephalitis Virus (EEEV). By utilizing volatile organic compound (VOC) blends from dynamic headspace aeration, my research group is looking to develop cost-effective, targeted, and field-applicable approaches for mosquito control and surveillance."
+  },
+  {
+    "objectID": "aboutme.html#statistics-and-analysis-background",
+    "href": "aboutme.html#statistics-and-analysis-background",
+    "title": "About me",
+    "section": "Statistics and Analysis Background",
+    "text": "Statistics and Analysis Background\nI developed an interest in bioinformatics in my undergraduate lab, where I used bash scripts with my data from Geneious, Clustal Omega and Ensembl to develop primers and target amplification of single nucleotide polymorphisms (SNPs) on significant genes of sockeye salmon (Oncorhynchus nerka associated with changes in egg and body color across different regions of Alaskan lakes and beaches.\nAt the same time, I enrolled in an introductory bioinformatics course at the University of South Carolina-Aiken that was partnered with the American Campus Tree Genomes project led by Dr. Alex Harkess at HudsonAlpha — where we focused on the Sabal palmetto. I learned how to write scripts and analyze genome sequencing, assembly, and annotation data using basic linux and shell scripting, as well as create a Circos diagram for our manuscript.\nI enrolled in Bioinformatics and Omics in the fall of 2025, and learned how to utilize R and MATLAB to do a great deal of high dimensional data analyses, such as tree-building, bootstrap analysis, power analyses, BATMAN fitting, etc… and ran BUSCO analyses for my term project to uncover genome completeness assembly robustness across different genera of mosquitoes.\nTL;DR: I consider myself a novice, though I can find my way around a terminal and execute scripts and code so long as the documentation is clean (though… when is it ever??). Below is a list of my most commonly used softwares and tools for data analysis.\n\nR/R Studio (for all my basic bar graphs)\nMATLAB (my favorite for PCA and anything involving highly dimensional data)\nBash (for organizing and executing scripts on my data or other big public data sets)"
+  },
+  {
+    "objectID": "aboutme.html#goal-for-mada",
+    "href": "aboutme.html#goal-for-mada",
+    "title": "About me",
+    "section": "Goal for MADA",
+    "text": "Goal for MADA\nI want to become more confident in my decisions for which softwares/tools and which analyses to run for data sets that are multivariable and quite frankly— a pain to tidy up and analyze. I hope that through the projects completed in this class, I can become a better resource to not only myself but my lab, and rely less on others to understand my own data."
+  },
+  {
+    "objectID": "aboutme.html#fun-facts-about-me",
+    "href": "aboutme.html#fun-facts-about-me",
+    "title": "About me",
+    "section": "Fun facts about me!",
+    "text": "Fun facts about me!\n\nCrochet is a passion hobby of mine, and love to make headphone accessories and beanies for friends and family.\nI have 2 shih tzus, Toast (6yo) and Bandit (6mo), who act as my organic alarm clocks.\n\nI’m getting married this upcoming Februrary 28th! 💒"
+  },
+  {
+    "objectID": "aboutme.html#link",
+    "href": "aboutme.html#link",
+    "title": "About me",
+    "section": "Link",
+    "text": "Link\nI would like to share instructions given by the American Campus Tree Genomes people for running a haplotype resolved chromosome scale assembly. Forewarning, this is also a quarto blog and YES there are missing pieces. However, the pieces that are there are good. Cheers!"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "My website and data analysis portfolio",
+    "title": "Nalany’s website & data analysis portfolio",
     "section": "",
-    "text": "Feel free to change the text below any way you want 😁!\n\nHello\n\nAnd hello again\nWelcome to my website and data analysis portfolio.\n\nPlease use the Menu Bar above to look around.\nHave fun!"
+    "text": "Hi, nice to see you here!\nWelcome to my website and data analysis portfolio.\n\nPlease use the Menu Bar above to look around.\nStay tuned for project updates."
   }
 ]

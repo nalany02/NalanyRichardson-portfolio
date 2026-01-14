@@ -1,0 +1,7 @@
+---
+title: "About me"
+---
+
+Add some text and a figure describing myself.
+
+For details, see the instructions. 

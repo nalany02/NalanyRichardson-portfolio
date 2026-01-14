@@ -1,0 +1,23 @@
+project: 
+  type: website
+  output-dir: docs
+
+website:
+  title: "YOURNAME Data Analysis Portfolio"
+  navbar:
+    left:
+      - text: "About Me"
+        file: aboutme.qmd
+      - text: "Projects"
+        menu:
+          - text: "Starter Analysis Exercise"
+            file: starter-analysis-exercise/starter-analysis-exercise.qmd
+    right:
+      - icon: github 
+        href: URL-TO-THIS-REPOSITORY-HERE        
+format:
+  html:
+    theme: cosmo
+    highlight: zenburn
+    css: styles.css
+    toc: FALSE

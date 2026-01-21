@@ -117,3 +117,60 @@ summary(fit2)
 `Fit1` shows that `infant mortality` shows a statistically significant negative relationship with `life expectancy` **(p = 2.83\^-08)**, explaining approximately **47% of the variation in life expectancy** among African countries in 2000. In contrast, `population size` shows no significant association with life expectancy (p = 0.616). The model fit is also highly significant with a prediction error rate of 6.221 years (F= 43.48, p= 2.825\^-08).
 
 `Fit2` indicates that there is no statistically significant relationship between `population size` and `life expectancy` (estimate =2.756\^-08; p=0.616). The model is not significant and does not explain the variation in life expectancy (R2= 0.005176; adjusted value of -0.01513; F= 0.2549, **p= 0.6159**). Predictor error is large for this dataset at 8.524 years.
+
+
+
+### The following section contributed by Elle Adams
+
+
+```{r}
+#Need dplyr to pipe data 
+library(dplyr)
+library(tidyverse)
+library(dslabs)
+
+#New dslabs data set - murders (I like true crime)
+#overview of structure
+str(murders)
+
+#summary of dataset 
+summary(murders)
+
+```
+
+
+```{r}
+#create new column total/population * 100000 to get number of murders per 100,000 people for each state (how it's typically expressed)
+murders <- murders %>% mutate(murder_rate = (total/population)*100000)
+
+#check new structure 
+str(murders)
+```
+
+
+```{r}
+#Question 1 - what is the relationship between population and number of murders? hypothesis - more people = more murder
+#Plot population (x) vs total (y)
+ggplot(murders, (aes(x = population, y = total))) +
+  geom_point()
+
+#Fit with total as outcome and population as predictor
+total_vs_pop <- lm(total ~ population, data = murders)
+
+#See the fit
+summary(total_vs_pop)
+```
+
+What I found: There is a strong, positive correlation between population and total number of murders (R-squared = 0.9271) and this is significant (p-value = 2e-16, much smaller than 0.05). This is confirmed visually by the graph. 
+
+```{r}
+#Question 2 - which state has the most murders per 100,000 people? hypothesis - new york 
+#Figure showing the number of murders per 100,000 people for each state
+ggplot(murders, aes(x = state, y = murder_rate)) +
+  geom_col() + theme(axis.text.x = element_text(angle = 90))
+
+#What is murder rate for DC? (Alphabetically row number 9)
+slice(murders, 9)
+```
+
+Using this figure, I can see that I was incorrect in my hypothesis - DC actually as the highest murder rate, at 16.45275 murders per 100,000 people. 

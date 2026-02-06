@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "starter-analysis-exercise/starter-analysis-exercise.html",
+    "href": "starter-analysis-exercise/starter-analysis-exercise.html",
+    "title": "Starter Analysis Exercise",
+    "section": "",
+    "text": "Note: This document contains code needed for each part of the Starter Analysis exercise for the MADA Spring 2026 course. Each part is listed under its corresponding part name. As a disclaimer, AI was used for code brevity and assistance in fixing errors in code. Cmd + option + I was used to create chunks for code sections (mac option)."
+  },
+  {
+    "objectID": "starter-analysis-exercise/starter-analysis-exercise.html#part-1",
+    "href": "starter-analysis-exercise/starter-analysis-exercise.html#part-1",
+    "title": "Starter Analysis Exercise",
+    "section": "Part 1",
+    "text": "Part 1\n\nPackage loading and install\n\n# install dslabs package (run once in the console if not already installed)\n# install.packages(\"dslabs\")\n\n# load required packages\n# tidyverse added for later steps with data processing\nlibrary(\"dslabs\")\n\nWarning: package 'dslabs' was built under R version 4.5.2\n\nlibrary(\"tidyverse\")\n\nWarning: package 'ggplot2' was built under R version 4.5.2\n\n\nWarning: package 'tibble' was built under R version 4.5.2\n\n\nWarning: package 'tidyr' was built under R version 4.5.2\n\n\nWarning: package 'readr' was built under R version 4.5.2\n\n\nWarning: package 'purrr' was built under R version 4.5.2\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.2\n✔ purrr     1.2.1     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors"
+  },
+  {
+    "objectID": "starter-analysis-exercise/starter-analysis-exercise.html#show-dataset-structure",
+    "href": "starter-analysis-exercise/starter-analysis-exercise.html#show-dataset-structure",
+    "title": "Starter Analysis Exercise",
+    "section": "Show dataset structure",
+    "text": "Show dataset structure\n\n# only run the next command interactively, not in a script\n# help(gapminder)\n\n# get an overview of data structure\nstr(gapminder)\n\n'data.frame':   10545 obs. of  9 variables:\n $ country         : Factor w/ 185 levels \"Albania\",\"Algeria\",..: 1 2 3 4 5 6 7 8 9 10 ...\n $ year            : int  1960 1960 1960 1960 1960 1960 1960 1960 1960 1960 ...\n $ infant_mortality: num  115.4 148.2 208 NA 59.9 ...\n $ life_expectancy : num  62.9 47.5 36 63 65.4 ...\n $ fertility       : num  6.19 7.65 7.32 4.43 3.11 4.55 4.82 3.45 2.7 5.57 ...\n $ population      : num  1636054 11124892 5270844 54681 20619075 ...\n $ gdp             : num  NA 1.38e+10 NA NA 1.08e+11 ...\n $ continent       : Factor w/ 5 levels \"Africa\",\"Americas\",..: 4 1 1 2 2 3 2 5 4 3 ...\n $ region          : Factor w/ 22 levels \"Australia and New Zealand\",..: 19 11 10 2 15 21 2 1 22 21 ...\n\n\n\n# get a summary of data\nsummary(gapminder)\n\n                country           year      infant_mortality life_expectancy\n Albania            :   57   Min.   :1960   Min.   :  1.50   Min.   :13.20  \n Algeria            :   57   1st Qu.:1974   1st Qu.: 16.00   1st Qu.:57.50  \n Angola             :   57   Median :1988   Median : 41.50   Median :67.54  \n Antigua and Barbuda:   57   Mean   :1988   Mean   : 55.31   Mean   :64.81  \n Argentina          :   57   3rd Qu.:2002   3rd Qu.: 85.10   3rd Qu.:73.00  \n Armenia            :   57   Max.   :2016   Max.   :276.90   Max.   :83.90  \n (Other)            :10203                  NA's   :1453                    \n   fertility       population             gdp               continent   \n Min.   :0.840   Min.   :3.124e+04   Min.   :4.040e+07   Africa  :2907  \n 1st Qu.:2.200   1st Qu.:1.333e+06   1st Qu.:1.846e+09   Americas:2052  \n Median :3.750   Median :5.009e+06   Median :7.794e+09   Asia    :2679  \n Mean   :4.084   Mean   :2.701e+07   Mean   :1.480e+11   Europe  :2223  \n 3rd Qu.:6.000   3rd Qu.:1.523e+07   3rd Qu.:5.540e+10   Oceania : 684  \n Max.   :9.220   Max.   :1.376e+09   Max.   :1.174e+13                  \n NA's   :187     NA's   :185         NA's   :2972                       \n             region    \n Western Asia   :1026  \n Eastern Africa : 912  \n Western Africa : 912  \n Caribbean      : 741  \n South America  : 684  \n Southern Europe: 684  \n (Other)        :5586  \n\n\n\n# determine the type of object gapminder is\nclass(gapminder)\n\n[1] \"data.frame\"\n\n\n\nData processing\n\n\nProcess Africa subset\n\n# subset gapminder data to rows where continent is \"Africa\"\nafricadata &lt;- gapminder[gapminder$continent == \"Africa\", ]\n\n# inspect structure (should show 2907 observations; troubleshoot if not)\nstr(africadata)\n\n'data.frame':   2907 obs. of  9 variables:\n $ country         : Factor w/ 185 levels \"Albania\",\"Algeria\",..: 2 3 18 22 26 27 29 31 32 33 ...\n $ year            : int  1960 1960 1960 1960 1960 1960 1960 1960 1960 1960 ...\n $ infant_mortality: num  148 208 187 116 161 ...\n $ life_expectancy : num  47.5 36 38.3 50.3 35.2 ...\n $ fertility       : num  7.65 7.32 6.28 6.62 6.29 6.95 5.65 6.89 5.84 6.25 ...\n $ population      : num  11124892 5270844 2431620 524029 4829291 ...\n $ gdp             : num  1.38e+10 NA 6.22e+08 1.24e+08 5.97e+08 ...\n $ continent       : Factor w/ 5 levels \"Africa\",\"Americas\",..: 1 1 1 1 1 1 1 1 1 1 ...\n $ region          : Factor w/ 22 levels \"Australia and New Zealand\",..: 11 10 20 17 20 5 10 20 10 10 ...\n\n# check summary statistics \nsummary(africadata)\n\n         country          year      infant_mortality life_expectancy\n Algeria     :  57   Min.   :1960   Min.   : 11.40   Min.   :13.20  \n Angola      :  57   1st Qu.:1974   1st Qu.: 62.20   1st Qu.:48.23  \n Benin       :  57   Median :1988   Median : 93.40   Median :53.98  \n Botswana    :  57   Mean   :1988   Mean   : 95.12   Mean   :54.38  \n Burkina Faso:  57   3rd Qu.:2002   3rd Qu.:124.70   3rd Qu.:60.10  \n Burundi     :  57   Max.   :2016   Max.   :237.40   Max.   :77.60  \n (Other)     :2565                  NA's   :226                     \n   fertility       population             gdp               continent   \n Min.   :1.500   Min.   :    41538   Min.   :4.659e+07   Africa  :2907  \n 1st Qu.:5.160   1st Qu.:  1605232   1st Qu.:8.373e+08   Americas:   0  \n Median :6.160   Median :  5570982   Median :2.448e+09   Asia    :   0  \n Mean   :5.851   Mean   : 12235961   Mean   :9.346e+09   Europe  :   0  \n 3rd Qu.:6.860   3rd Qu.: 13888152   3rd Qu.:6.552e+09   Oceania :   0  \n Max.   :8.450   Max.   :182201962   Max.   :1.935e+11                  \n NA's   :51      NA's   :51          NA's   :637                        \n                       region   \n Eastern Africa           :912  \n Western Africa           :912  \n Middle Africa            :456  \n Northern Africa          :342  \n Southern Africa          :285  \n Australia and New Zealand:  0  \n (Other)                  :  0  \n\n\n\n# keep only infant_mortality and life_expectancy\nafrica_infant_mortality &lt;- africadata[, c(\"infant_mortality\", \"life_expectancy\")]\n\n# keep only population and life_expectancy\nafrica_population &lt;- africadata[, c(\"population\", \"life_expectancy\")]\n\n# inspect structure + summaries\nstr(africa_infant_mortality)\n\n'data.frame':   2907 obs. of  2 variables:\n $ infant_mortality: num  148 208 187 116 161 ...\n $ life_expectancy : num  47.5 36 38.3 50.3 35.2 ...\n\nsummary(africa_infant_mortality)\n\n infant_mortality life_expectancy\n Min.   : 11.40   Min.   :13.20  \n 1st Qu.: 62.20   1st Qu.:48.23  \n Median : 93.40   Median :53.98  \n Mean   : 95.12   Mean   :54.38  \n 3rd Qu.:124.70   3rd Qu.:60.10  \n Max.   :237.40   Max.   :77.60  \n NA's   :226                     \n\nstr(africa_population)\n\n'data.frame':   2907 obs. of  2 variables:\n $ population     : num  11124892 5270844 2431620 524029 4829291 ...\n $ life_expectancy: num  47.5 36 38.3 50.3 35.2 ...\n\nsummary(africa_population)\n\n   population        life_expectancy\n Min.   :    41538   Min.   :13.20  \n 1st Qu.:  1605232   1st Qu.:48.23  \n Median :  5570982   Median :53.98  \n Mean   : 12235961   Mean   :54.38  \n 3rd Qu.: 13888152   3rd Qu.:60.10  \n Max.   :182201962   Max.   :77.60  \n NA's   :51                         \n\n\n\n\nHow to plot the data"
+  },
+  {
+    "objectID": "aboutme.html",
+    "href": "aboutme.html",
+    "title": "About me",
+    "section": "",
+    "text": "Hello! My name is Nalany Richardson and I am a 2nd year Masters student in the University of Georgia’s Comparative Biomedical Sciences department, in the College of Veterinary Medicine, in the Dan Peach Lab. I am currently based at the Savannah River Ecology Lab in Jackson, South Carolina.\nI am a 2nd year Masters student in the University of Georgia’s Comparative Biomedical Sciences department, in the College of Veterinary Medicine, in the Dan Peach Lab. I am currently based at the Savannah River Ecology Lab in Jackson, South Carolina."
+  },
+  {
+    "objectID": "aboutme.html#current-research-and-interests",
+    "href": "aboutme.html#current-research-and-interests",
+    "title": "About me",
+    "section": "Current Research and Interests 🦟 🛑",
+    "text": "Current Research and Interests 🦟 🛑\nMy current research looks to determine how ornithophilic (‘bird-loving’) mosquitoes such as Culiseta melanura and Culex spp. specifically seek out avian hosts as these interactions can lead to transmission of highly lethal viruses such as Eastern Equine Encephalitis Virus (EEEV). By utilizing volatile organic compound (VOC) blends from dynamic headspace aeration, my research group is looking to develop cost-effective, targeted, and field-applicable approaches for mosquito control and surveillance."
+  },
+  {
+    "objectID": "aboutme.html#statistics-and-analysis-background",
+    "href": "aboutme.html#statistics-and-analysis-background",
+    "title": "About me",
+    "section": "Statistics and Analysis Background",
+    "text": "Statistics and Analysis Background\nI developed an interest in bioinformatics in my undergraduate lab, where I used bash scripts with my data from Geneious, Clustal Omega and Ensembl to develop primers and target amplification of single nucleotide polymorphisms (SNPs) on significant genes of sockeye salmon (Oncorhynchus nerka associated with changes in egg and body color across different regions of Alaskan lakes and beaches.\nAt the same time, I enrolled in an introductory bioinformatics course at the University of South Carolina-Aiken that was partnered with the American Campus Tree Genomes project led by Dr. Alex Harkess at HudsonAlpha — where we focused on the Sabal palmetto. I learned how to write scripts and analyze genome sequencing, assembly, and annotation data using basic linux and shell scripting, as well as create a Circos diagram for our manuscript.\nI enrolled in Bioinformatics and Omics in the fall of 2025, and learned how to utilize R and MATLAB to do a great deal of high dimensional data analyses, such as tree-building, bootstrap analysis, power analyses, BATMAN fitting, etc… and ran BUSCO analyses for my term project to uncover genome completeness assembly robustness across different genera of mosquitoes.\nTL;DR: I consider myself a novice, though I can find my way around a terminal and execute scripts and code so long as the documentation is clean (though… when is it ever??). Below is a list of my most commonly used softwares and tools for data analysis.\n\nR/R Studio (for all my basic bar graphs)\nMATLAB (my favorite for PCA and anything involving highly dimensional data)\nBash (for organizing and executing scripts on my data or other big public data sets)"
+  },
+  {
+    "objectID": "aboutme.html#goal-for-mada",
+    "href": "aboutme.html#goal-for-mada",
+    "title": "About me",
+    "section": "Goal for MADA",
+    "text": "Goal for MADA\nI want to become more confident in my decisions for which softwares/tools and which analyses to run for data sets that are multivariable and quite frankly— a pain to tidy up and analyze. I hope that through the projects completed in this class, I can become a better resource to not only myself but my lab, and rely less on others to understand my own data."
+  },
+  {
+    "objectID": "aboutme.html#fun-facts-about-me",
+    "href": "aboutme.html#fun-facts-about-me",
+    "title": "About me",
+    "section": "Fun facts about me!",
+    "text": "Fun facts about me!\n\nCrochet is a passion hobby of mine, and love to make headphone accessories and beanies for friends and family.\nI have 2 shih tzus, Toast (6yo) and Bandit (6mo), who act as my organic alarm clocks.\n\nI’m getting married this upcoming Februrary 28th! 💒"
+  },
+  {
+    "objectID": "aboutme.html#link",
+    "href": "aboutme.html#link",
+    "title": "About me",
+    "section": "Link",
+    "text": "Link\nI would like to share instructions given by the American Campus Tree Genomes people for running a haplotype resolved chromosome scale assembly. Forewarning, this is also a quarto blog and YES there are missing pieces. However, the pieces that are there are good. Cheers!"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Nalany’s website & data analysis portfolio",
+    "section": "",
+    "text": "Hi, nice to see you here!\nWelcome to my website and data analysis portfolio.\n\nPlease use the Menu Bar above to look around.\nStay tuned for project updates."
+  }
+]

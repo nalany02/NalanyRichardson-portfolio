@@ -1,0 +1,273 @@
+---
+title: "CDC Data Exercise"
+---
+
+This data analysis was done using the *Provisional COVID-19 Deaths by Race and Hispanic Origin, and Age* dataset provided by the NCHS/DVS, which contains data on deaths involving COVID-19, pneumonia, and influenza, categorized by race/age/jurisdiction.
+
+There are 13 columns listed:
+
+1.  Date as of - date of analysis
+
+2.  Start date - first date of data period
+
+3.  End date - last date of data period
+
+4.  State - jurisdiction of occurrence
+
+5.  Age group - age group
+
+6.  Race and Hispanic Origin Group - Race or Hispanic origin group
+
+7.  COVID-19 deaths - deaths involving COVID-19 (ICD-code U07.1)
+
+8.  Total deaths - deaths from all causes of death
+
+9.  Pneumonia deaths - Pneumonia deaths (ICD-10 codes J12.0-J18.9)
+
+10. Pneumonia and COVID-19 deaths - Deaths with Pneumonia and COVID-19
+
+11. Influenza deaths - Infleunza deaths (ICD-10 codes J09-J11)
+
+12. Pneumonia, Influenza, or COVID-19 deaths - deaths with any of aforementioned codes.
+
+13. Footnote- suppressed counts (1-9)
+
+## Package loading and install
+
+First we need to upload and/or install packages for cleaning our data
+```{r}
+# install packages if not already installed (run once in the console)
+# load required packages
+# tidyverse added for later steps with data processing
+library("dslabs")
+library("tidyverse")
+library("readr")
+library("stringr")
+library("here")
+library("janitor") 
+```
+
+```{r}
+# read in the data
+cdcdata <- read_csv(here("cdcdata-exercise", "Provisional_COVID-19_Deaths_by_Race_and_Hispanic_Origin,_and_Age_20260211.csv"))
+```
+
+## Show dataset structure
+Now we should take a look at what the data actually looks like.
+```{r}
+# get an overview of data structure
+# I prefer str() for checking out the data, but I also like glimpse() for very rote summaries where you can determine characteristics.We can run all of them and see what we get, and then just choose whatever we'd like.
+str(cdcdata)
+glimpse(cdcdata)
+```
+
+## Data processing
+
+### Cleaning up dataset
+
+```{r}
+library(dplyr)
+library(readr)
+
+# clean data
+cdc_clean <- cdcdata %>%
+  # remove columns not needed for our analysis
+  select(-`Data as of`, -`Start Date`, -Footnote) %>%
+  # rename columns-- I do this as the original dataset would require backticks for uppercase and spaced column names.
+  rename(
+    end_date = `End Date`,
+    state = State,
+    age_group = `Age group`,
+    race_origin = `Race and Hispanic Origin Group`,
+    covid_deaths = `COVID-19 Deaths`,
+    total_deaths = `Total Deaths`,
+    pneumonia_deaths = `Pneumonia Deaths`,
+    pneumonia_covid_deaths = `Pneumonia and COVID-19 Deaths`,
+    influenza_deaths = `Influenza Deaths`,
+    pneumonia_influenza_covid_deaths = `Pneumonia, Influenza, or COVID-19 Deaths`
+  ) %>%
+# standardize formats and clean spacing. `mdy()` converts the end_date column to a date format, while `str_squish()` and `str_trim()` remove extra spaces from the state. I noticed that some state values were returning as `NA` because of extra spaces. So look out for that!
+  mutate(
+    end_date = mdy(end_date),
+    state = str_squish(str_trim(state)),
+    age_group = str_squish(str_trim(age_group)),
+    race_origin = str_squish(str_trim(race_origin))
+  )
+# also saw that NYC was separated from New York, so I combined those two together to avoid confusion and make sure all data from New York is in one place.
+cdc_clean <- cdc_clean %>%
+  mutate(state = ifelse(state %in% c("New York", "New York City"), "New York", state))
+# now we can double check that names are correct and data is in the correct format.
+names(cdc_clean)
+glimpse(cdc_clean)
+```
+
+## Analysis and Plotting
+
+We can now start to analyze the data and make some plots. For example, we can look at the relationship between COVID-19 deaths and total deaths across different age groups or states. 
+
+We can also explore how pneumonia deaths relate to COVID-19 deaths, or how influenza deaths compare across different race and Hispanic origin groups.
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(scales)
+
+state_totals <- cdc_clean %>%
+  filter(state != "United States") %>%
+  group_by(state) %>%
+  summarise(total_deaths = sum(total_deaths, na.rm = TRUE), .groups = "drop")
+# this gives us the top 10 states by total deaths, which we can plot in a horizontal bar chart.
+top10 <- state_totals %>%
+  arrange(desc(total_deaths)) %>%
+  slice_head(n = 10)
+# horizontal bar chart: states on y-axis, total_deaths on x-axis 
+ggplot(top10, aes(x = reorder(state, total_deaths), y = total_deaths, fill = state)) +
+  geom_col() +
+  geom_text(
+    aes(label = comma(total_deaths)),
+    hjust = 1.1,           # move text slightly inside bar
+    color = "white",
+    fontface = "bold",
+    size = 3.5
+  ) +
+  coord_flip() + # flip coordinates for horizontal bars
+  scale_fill_hue() +
+  scale_y_continuous(
+    breaks = seq(0, max(top10$total_deaths, na.rm = TRUE), by = 250000),
+    labels = comma,
+    expand = expansion(mult = c(0, 0.05))
+  ) +
+  labs(
+    title = "Top 10 States by Total Deaths",
+    x = "State",
+    y = "Total Deaths"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.title.x = element_text(face = "bold"),
+    axis.title.y = element_text(face = "bold"),
+    axis.text.y = element_text(face = "bold"),
+    legend.position = "none"
+  )
+```
+
+As seen above, California has the highest total deaths, followed by Texas and Florida. The top 10 states account for a significant portion of the total deaths in the dataset. Now we can look at the relationship between COVID-19 deaths and total deaths across different states and variables.
+```{r}
+library(dplyr)
+library(ggplot2)
+library(scales)
+
+# top 10 states by covid deaths (excluding US aggregate; merged NYC into NY)
+covid_top10 <- cdc_clean %>%
+  filter(state != "United States") %>%
+  mutate(state = ifelse(state == "New York City", "New York", state)) %>%
+  group_by(state) %>%
+  summarise(covid_deaths = sum(covid_deaths, na.rm = TRUE), .groups = "drop") %>%
+  arrange(desc(covid_deaths)) %>%
+  slice_head(n = 10)
+ggplot(
+  covid_top10,
+  aes(y = reorder(state, covid_deaths), x = covid_deaths, fill = state)
+) +
+  geom_col() +
+  geom_text(
+    aes(label = comma(covid_deaths)),
+    hjust = 1.1,
+    color = "white",
+    fontface = "bold",
+    size = 3.5
+  ) +
+  scale_fill_hue() +
+  scale_x_continuous(
+    breaks = seq(0, max(covid_top10$covid_deaths, na.rm = TRUE), by = 15000),
+    labels = comma,
+    expand = expansion(mult = c(0, 0.05))
+  ) +
+  labs(
+    title = "Top 10 States by COVID-19 Deaths",
+    x = "COVID-19 Deaths",
+    y = "State"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.title.x = element_text(face = "bold"),
+    axis.title.y = element_text(face = "bold"),
+    axis.text.y = element_text(face = "bold"),
+    legend.position = "none"
+  )
+```
+
+The `Top 10 States by COVID-19 Deaths` plot shows that California has the highest number of COVID-19 deaths, followed by Texas and Florida, similar trend to total deaths. It's a good idea to perhaps explore how age groups and race/origin groups are affected, or effect these trends as well.
+
+```{r}
+fit1 <- lm(covid_deaths ~ age_group, data = cdc_clean)
+summary(fit1)
+
+fit2 <- lm(covid_deaths ~ race_origin, data = cdc_clean)
+summary(fit2)
+```
+
+`Fit1` shows that there is a statistically significant relationship between `age group` and `COVID-19 deaths` (p < 2.2e-16), with older age groups having higher COVID-19 death counts. The model explains approximately 85% of the variation in COVID-19 deaths among different age groups (R2 = 0.8505; adjusted R2 = 0.8478). The prediction error rate is 1,234 deaths (F= 305.3, p < 2.2e-16).
+
+`Fit2` indicates that there is a statistically significant relationship between `race and Hispanic origin group` and `COVID-19 deaths` (p < 2.2e-16). The model explains approximately 60% of the variation in COVID-19 deaths among different race/origin groups (adjusted R2 = 0.5958). 
+
+The prediction error rate is 1,567 deaths (F= 120.5, p < 2.2e-16). This suggests that race/origin group is an important factor in understanding COVID-19 death counts.
+
+```{r}
+library(ggplot2)
+
+ggplot(cdc_clean, aes(x = covid_deaths)) +
+  geom_histogram(bins = 40, color = "white") +
+  labs(title = "Distribution of COVID-19 Deaths", x = "COVID-19 Deaths", y = "Count") +
+  theme_minimal()
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(scales)
+
+# summarize covid deaths by age group and race/origin group
+p_age <- cdc_clean %>%
+  mutate(group = age_group, variable = "Age Group") %>%
+  group_by(variable, group) %>%
+  summarise(covid_deaths = sum(covid_deaths, na.rm = TRUE), .groups = "drop")
+
+p_race <- cdc_clean %>%
+  mutate(group = race_origin, variable = "Race/Origin Group") %>%
+  group_by(variable, group) %>%
+  summarise(covid_deaths = sum(covid_deaths, na.rm = TRUE), .groups = "drop")
+
+plot_dat <- bind_rows(p_age, p_race)
+ggplot(plot_dat, aes(x = reorder(group, covid_deaths), y = covid_deaths, fill = group)) +
+  geom_col() +
+  coord_flip() +
+  facet_wrap(~variable, scales = "free_y") +
+  scale_fill_hue() +
+  scale_y_continuous(
+    labels = scales::comma,
+    breaks = scales::breaks_pretty(n = 6)
+  ) +
+  labs(
+    title = "COVID-19 Deaths by Age Group and Race/Origin Group",
+    x = "",
+    y = "COVID-19 Deaths"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    strip.text = element_text(face = "bold"),
+    axis.text.y = element_text(size = 9),
+    axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+    legend.position = "none"
+  )
+```
+
+This graph looks at COVID-19 deaths by age group and race/origin group. The left panel shows that COVID-19 deaths increase with age, with the highest counts in the 85+ age group. The right panel shows that certain race/origin groups, such as Non-Hispanic Black and Hispanic, have higher COVID-19 death counts compared to Non-Hispanic White and Non-Hispanic Asian groups. While it shows disparity in deaths across race/origin groups, it is important to consider other factors such as socioeconomic status and access to healthcare, which are not shown in this dataset.
+
+Note: Chatgpt was used to assist with code writing, color palettes, and brevity. All interpretations and conclusions were made by me.
+
+### Citation
+National Center for Health Statistics. Provisional COVID-19 Deaths by Race and Hispanic Origin, and Age. Date accessed [11 Februrary 2026]. Available from https://data.cdc.gov/d/ks3g-spdg.

@@ -214,16 +214,6 @@ summary(fit2)
 `Fit2` indicates that there is a statistically significant relationship between `race and Hispanic origin group` and `COVID-19 deaths` (p < 2.2e-16). The model explains approximately 60% of the variation in COVID-19 deaths among different race/origin groups (adjusted R2 = 0.5958). 
 
 The prediction error rate is 1,567 deaths (F= 120.5, p < 2.2e-16). This suggests that race/origin group is an important factor in understanding COVID-19 death counts.
-
-```{r}
-library(ggplot2)
-
-ggplot(cdc_clean, aes(x = covid_deaths)) +
-  geom_histogram(bins = 40, color = "white") +
-  labs(title = "Distribution of COVID-19 Deaths", x = "COVID-19 Deaths", y = "Count") +
-  theme_minimal()
-```
-
 ```{r}
 library(dplyr)
 library(ggplot2)

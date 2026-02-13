@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -73,10 +73,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-0648354f31e181f8a1ef37b3127ab8f3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-54b560df82c95bacbc668b301994f5f6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -202,70 +202,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>Load the packages.</p>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'purrr' was built under R version 4.5.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggplot2' was built under R version 4.5.2</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set a seed for reproducibility</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">234</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the number of observations (patients) to generate</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>n_patients <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an empty data frame with placeholders for variables</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>syn_dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">PatientID =</span> <span class="fu">numeric</span>(n_patients),</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Age =</span> <span class="fu">numeric</span>(n_patients),</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Gender =</span> <span class="fu">character</span>(n_patients),</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">TreatmentGroup =</span> <span class="fu">character</span>(n_patients),</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">EnrollmentDate =</span> lubridate<span class="sc">::</span><span class="fu">as_date</span>(<span class="fu">character</span>(n_patients)),</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">BloodPressure =</span> <span class="fu">numeric</span>(n_patients),</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">Troponin =</span> <span class="fu">numeric</span>(n_patients),</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">AdverseEvent =</span> <span class="fu">integer</span>(n_patients)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 1: Patient ID</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>PatientID <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>n_patients</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 2: Age (numeric variable)</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>Age <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n_patients, <span class="at">mean =</span> <span class="dv">60</span>, <span class="at">sd =</span> <span class="dv">10</span>), <span class="dv">1</span>)</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 3: Gender (categorical variable)</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>Gender <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_chr</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>), n_patients, <span class="at">replace =</span> <span class="cn">TRUE</span>), as.character)</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 4: Treatment Group (categorical variable)</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>TreatmentGroup <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_chr</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"Placebo"</span>), n_patients, <span class="at">replace =</span> <span class="cn">TRUE</span>), as.character)</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 5: Date of Enrollment (date variable)</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>EnrollmentDate <span class="ot">&lt;-</span> lubridate<span class="sc">::</span><span class="fu">as_date</span>(<span class="fu">sample</span>(<span class="fu">seq</span>(<span class="at">from =</span> lubridate<span class="sc">::</span><span class="fu">as_date</span>(<span class="st">"2022-01-01"</span>), <span class="at">to =</span> lubridate<span class="sc">::</span><span class="fu">as_date</span>(<span class="st">"2022-12-31"</span>), <span class="at">by =</span> <span class="st">"days"</span>), n_patients, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 6: Blood Pressure (numeric variable)</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>BloodPressure <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">runif</span>(n_patients, <span class="at">min =</span> <span class="dv">90</span>, <span class="at">max =</span> <span class="dv">160</span>), <span class="dv">1</span>)</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 7: Troponin level (numeric variable)</span></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 1: Troponin level is independent of treatment</span></span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="co">#syn_dat$Troponin &lt;- round(rnorm(n_patients, mean = 0.10, sd = 0.15), 1)</span></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 2: Troponin is dependent on treatment</span></span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>Troponin[syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"A"</span>] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="fu">sum</span>(syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"A"</span>), <span class="at">mean =</span> <span class="fl">0.035</span>, <span class="at">sd =</span> <span class="fl">0.012</span>), <span class="dv">3</span>), <span class="fl">0.001</span>)</span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>Troponin[syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"B"</span>] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="fu">sum</span>(syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"B"</span>), <span class="at">mean =</span> <span class="fl">0.085</span>, <span class="at">sd =</span> <span class="fl">0.020</span>), <span class="dv">3</span>), <span class="fl">0.001</span>)</span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>Troponin[syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"Placebo"</span>] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="fu">sum</span>(syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"Placebo"</span>), <span class="at">mean =</span> <span class="fl">0.260</span>, <span class="at">sd =</span> <span class="fl">0.060</span>), <span class="dv">3</span>), <span class="fl">0.001</span>)</span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 8: Adverse Event (binary variable, 0 = No, 1 = Yes)</span></span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 1: Adverse events are independent of treatment</span></span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="co">#syn_dat$AdverseEvent &lt;- purrr::map_int(sample(0:1, n_patients, replace = TRUE, prob = c(0.8, 0.2)), as.integer)</span></span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 2: Adverse events are influenced by treatment status</span></span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>AdverseEvent[syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"A"</span>] <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_int</span>(<span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="fu">sum</span>(syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"A"</span>), <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)), as.integer)</span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>AdverseEvent[syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"B"</span>] <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_int</span>(<span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="fu">sum</span>(syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"B"</span>), <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>)), as.integer)</span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>AdverseEvent[syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"Placebo"</span>] <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_int</span>(<span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="fu">sum</span>(syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"Placebo"</span>), <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.9</span>, <span class="fl">0.1</span>)), as.integer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set a seed for reproducibility</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">234</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the number of observations (patients) to generate</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>n_patients <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an empty data frame with placeholders for variables</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>syn_dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">PatientID =</span> <span class="fu">numeric</span>(n_patients),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Age =</span> <span class="fu">numeric</span>(n_patients),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Gender =</span> <span class="fu">character</span>(n_patients),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">TreatmentGroup =</span> <span class="fu">character</span>(n_patients),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">EnrollmentDate =</span> lubridate<span class="sc">::</span><span class="fu">as_date</span>(<span class="fu">character</span>(n_patients)),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">BloodPressure =</span> <span class="fu">numeric</span>(n_patients),</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">Troponin =</span> <span class="fu">numeric</span>(n_patients),</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">AdverseEvent =</span> <span class="fu">integer</span>(n_patients)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 1: Patient ID</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>PatientID <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>n_patients</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 2: Age (numeric variable)</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>Age <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n_patients, <span class="at">mean =</span> <span class="dv">60</span>, <span class="at">sd =</span> <span class="dv">10</span>), <span class="dv">1</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 3: Gender (categorical variable)</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>Gender <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_chr</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>), n_patients, <span class="at">replace =</span> <span class="cn">TRUE</span>), as.character)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 4: Treatment Group (categorical variable)</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>TreatmentGroup <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_chr</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"Placebo"</span>), n_patients, <span class="at">replace =</span> <span class="cn">TRUE</span>), as.character)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 5: Date of Enrollment (date variable)</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>EnrollmentDate <span class="ot">&lt;-</span> lubridate<span class="sc">::</span><span class="fu">as_date</span>(<span class="fu">sample</span>(<span class="fu">seq</span>(<span class="at">from =</span> lubridate<span class="sc">::</span><span class="fu">as_date</span>(<span class="st">"2022-01-01"</span>), <span class="at">to =</span> lubridate<span class="sc">::</span><span class="fu">as_date</span>(<span class="st">"2022-12-31"</span>), <span class="at">by =</span> <span class="st">"days"</span>), n_patients, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 6: Blood Pressure (numeric variable)</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>BloodPressure <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">runif</span>(n_patients, <span class="at">min =</span> <span class="dv">90</span>, <span class="at">max =</span> <span class="dv">160</span>), <span class="dv">1</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 7: Troponin level (numeric variable)</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 1: Troponin level is independent of treatment</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">#syn_dat$Troponin &lt;- round(rnorm(n_patients, mean = 0.10, sd = 0.15), 1)</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 2: Troponin is dependent on treatment</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>Troponin[syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"A"</span>] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="fu">sum</span>(syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"A"</span>), <span class="at">mean =</span> <span class="fl">0.035</span>, <span class="at">sd =</span> <span class="fl">0.012</span>), <span class="dv">3</span>), <span class="fl">0.001</span>)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>Troponin[syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"B"</span>] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="fu">sum</span>(syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"B"</span>), <span class="at">mean =</span> <span class="fl">0.085</span>, <span class="at">sd =</span> <span class="fl">0.020</span>), <span class="dv">3</span>), <span class="fl">0.001</span>)</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>Troponin[syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"Placebo"</span>] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="fu">sum</span>(syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"Placebo"</span>), <span class="at">mean =</span> <span class="fl">0.260</span>, <span class="at">sd =</span> <span class="fl">0.060</span>), <span class="dv">3</span>), <span class="fl">0.001</span>)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 8: Adverse Event (binary variable, 0 = No, 1 = Yes)</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 1: Adverse events are independent of treatment</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">#syn_dat$AdverseEvent &lt;- purrr::map_int(sample(0:1, n_patients, replace = TRUE, prob = c(0.8, 0.2)), as.integer)</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 2: Adverse events are influenced by treatment status</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>AdverseEvent[syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"A"</span>] <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_int</span>(<span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="fu">sum</span>(syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"A"</span>), <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)), as.integer)</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>AdverseEvent[syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"B"</span>] <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_int</span>(<span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="fu">sum</span>(syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"B"</span>), <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>)), as.integer)</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>syn_dat<span class="sc">$</span>AdverseEvent[syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"Placebo"</span>] <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_int</span>(<span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="fu">sum</span>(syn_dat<span class="sc">$</span>TreatmentGroup <span class="sc">==</span> <span class="st">"Placebo"</span>), <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.9</span>, <span class="fl">0.1</span>)), as.integer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the first few rows of the generated data</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(syn_dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the first few rows of the generated data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(syn_dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  PatientID  Age Gender TreatmentGroup EnrollmentDate BloodPressure Troponin
 1         1 66.6 Female              B     2022-04-22         121.6    0.063
@@ -284,8 +276,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grab summary of synthetic data</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(syn_dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grab summary of synthetic data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(syn_dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   PatientID           Age           Gender          TreatmentGroup    
  Min.   :  1.00   Min.   :29.60   Length:100         Length:100        
@@ -302,7 +294,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  3rd Qu.:2022-09-17   3rd Qu.:141.2   3rd Qu.:0.2320   3rd Qu.:1.00  
  Max.   :2022-12-27   Max.   :159.8   Max.   :0.4000   Max.   :1.00  </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(syn_dat)  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(syn_dat)  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 100
 Columns: 8
@@ -315,8 +307,8 @@ $ BloodPressure  &lt;dbl&gt; 121.6, 110.3, 100.4, 119.8, 127.7, 121.6, 134.4, 10
 $ Troponin       &lt;dbl&gt; 0.063, 0.265, 0.277, 0.340, 0.191, 0.093, 0.011, 0.235,…
 $ AdverseEvent   &lt;int&gt; 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0…</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Frequency table for adverse events stratified by treatment</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(syn_dat<span class="sc">$</span>AdverseEvent,syn_dat<span class="sc">$</span>TreatmentGroup)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Frequency table for adverse events stratified by treatment</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(syn_dat<span class="sc">$</span>AdverseEvent,syn_dat<span class="sc">$</span>TreatmentGroup)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   
      A  B Placebo
@@ -325,11 +317,11 @@ $ AdverseEvent   &lt;int&gt; 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Boxplot of Troponin levels by treatment group</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(syn_dat, <span class="fu">aes</span>(<span class="at">x =</span> TreatmentGroup, <span class="at">y =</span> Troponin)) <span class="sc">+</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Troponin Levels by Treatment"</span>, <span class="at">x =</span> <span class="st">"Treatment Group"</span>, <span class="at">y =</span> <span class="st">"Troponin Level"</span>) <span class="sc">+</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Boxplot of Troponin levels by treatment group</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(syn_dat, <span class="fu">aes</span>(<span class="at">x =</span> TreatmentGroup, <span class="at">y =</span> Troponin)) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Troponin Levels by Treatment"</span>, <span class="at">x =</span> <span class="st">"Treatment Group"</span>, <span class="at">y =</span> <span class="st">"Troponin Level"</span>) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -337,14 +329,14 @@ $ AdverseEvent   &lt;int&gt; 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># There is a difference in troponin levels across treatment groups, </span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># with the placebo group having higher levels on average, and treatment group A has the lowest levels, which </span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># correlates with lower risk of adverse events such as heart attacks.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># There is a difference in troponin levels across treatment groups, </span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># with the placebo group having higher levels on average, and treatment group A has the lowest levels, which </span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># correlates with lower risk of adverse events such as heart attacks.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform ANOVA to test for differences in troponin levels across treatment groups</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>anova_result <span class="ot">&lt;-</span> <span class="fu">aov</span>(Troponin <span class="sc">~</span> TreatmentGroup, <span class="at">data =</span> syn_dat)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform ANOVA to test for differences in troponin levels across treatment groups</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>anova_result <span class="ot">&lt;-</span> <span class="fu">aov</span>(Troponin <span class="sc">~</span> TreatmentGroup, <span class="at">data =</span> syn_dat)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>               Df Sum Sq Mean Sq F value Pr(&gt;F)    
 TreatmentGroup  2 1.0088  0.5044   284.8 &lt;2e-16 ***
@@ -352,14 +344,14 @@ Residuals      97 0.1718  0.0018
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A significant p-value (p &lt; 0.05) would indicate that there are significant differences in troponin levels </span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># between at least two of the treatment groups. Our p-value is &lt;2e-16, suggesting strong evidence for difference.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A significant p-value (p &lt; 0.05) would indicate that there are significant differences in troponin levels </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># between at least two of the treatment groups. Our p-value is &lt;2e-16, suggesting strong evidence for difference.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can also use linear models with treatment group as a predictor of troponin levels, and so forth.</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 1: treatment only</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Troponin <span class="sc">~</span> TreatmentGroup, <span class="at">data =</span> syn_dat)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can also use linear models with treatment group as a predictor of troponin levels, and so forth.</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 1: treatment only</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Troponin <span class="sc">~</span> TreatmentGroup, <span class="at">data =</span> syn_dat)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -381,9 +373,9 @@ Residual standard error: 0.04208 on 97 degrees of freedom
 Multiple R-squared:  0.8545,    Adjusted R-squared:  0.8515 
 F-statistic: 284.8 on 2 and 97 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 2: add demographics + blood pressure</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Troponin <span class="sc">~</span> TreatmentGroup <span class="sc">+</span> Age <span class="sc">+</span> Gender <span class="sc">+</span> BloodPressure, <span class="at">data =</span> syn_dat)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 2: add demographics + blood pressure</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Troponin <span class="sc">~</span> TreatmentGroup <span class="sc">+</span> Age <span class="sc">+</span> Gender <span class="sc">+</span> BloodPressure, <span class="at">data =</span> syn_dat)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -409,9 +401,9 @@ Residual standard error: 0.04254 on 94 degrees of freedom
 Multiple R-squared:  0.8559,    Adjusted R-squared:  0.8483 
 F-statistic: 111.7 on 5 and 94 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 3: allow treatment effect to vary by blood pressure</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Troponin <span class="sc">~</span> TreatmentGroup <span class="sc">*</span> BloodPressure <span class="sc">+</span> Age <span class="sc">+</span> Gender, <span class="at">data =</span> syn_dat)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 3: allow treatment effect to vary by blood pressure</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Troponin <span class="sc">~</span> TreatmentGroup <span class="sc">*</span> BloodPressure <span class="sc">+</span> Age <span class="sc">+</span> Gender, <span class="at">data =</span> syn_dat)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -439,8 +431,8 @@ Residual standard error: 0.0426 on 92 degrees of freedom
 Multiple R-squared:  0.8586,    Adjusted R-squared:  0.8479 
 F-statistic: 79.81 on 7 and 92 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare fit</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m1, m2, m3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare fit</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m1, m2, m3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -452,7 +444,7 @@ Model 3: Troponin ~ TreatmentGroup * BloodPressure + Age + Gender
 2     94 0.17009  3 0.0017082 0.3138 0.8153
 3     92 0.16692  2 0.0031708 0.8738 0.4208</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(m1, m2, m3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(m1, m2, m3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   df       AIC
 m1  4 -344.8713

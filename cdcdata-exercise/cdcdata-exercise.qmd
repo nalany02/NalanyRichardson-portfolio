@@ -261,3 +261,215 @@ Note: Chatgpt was used to assist with code writing, color palettes, and brevity.
 
 ### Citation
 National Center for Health Statistics. Provisional COVID-19 Deaths by Race and Hispanic Origin, and Age. Date accessed [11 Februrary 2026]. Available from https://data.cdc.gov/d/ks3g-spdg.
+
+# Synthetic data contribution made by MR 
+
+```{r}
+# Set a seed for reproducibility
+set.seed(123)
+
+# Define the number of observations (patients) to generate
+n_obs <- 100000
+
+# Create an empty data frame with placeholders for variables
+syn_data_MR <- data.frame(
+end_date	= lubridate::as_date(character(n_obs)),
+state	= character(n_obs),
+age_group	= character(n_obs),
+race_origin	= character(n_obs),
+covid_deaths	= numeric(n_obs), 
+total_deaths	= numeric(n_obs), 
+pneumonia_deaths	= numeric(n_obs),
+pneumonia_covid_deaths	= numeric(n_obs),
+influenza_deaths	= numeric(n_obs),
+pneumonia_influenza_covid_deaths	= numeric(n_obs)
+)
+```
+
+```{r}
+# Variable: End date
+# use same start and end dates as real data
+syn_data_MR$end_date <- lubridate::as_date(sample(seq(from = min(cdc_clean$end_date), 
+                                                        to = max(cdc_clean$end_date), 
+                                                        by = "days"), n_obs, replace = TRUE))
+```
+
+
+```{r}
+#creating a list vector for the states
+states_list <- unique(cdc_clean$state)
+
+# Variable: States
+# create with probabilities based on real data distribution
+syn_data_MR$state <- sample(states_list, 
+                         n_obs, replace = TRUE, 
+                         prob = as.numeric(table(cdc_clean$state)/100))
+```
+
+```{r}
+#creating a list vector for the age_group
+age_group_list <- unique(cdc_clean$age_group)
+
+# Variable: States
+# create with probabilities based on real data distribution
+syn_data_MR$age_group <- sample(age_group_list, 
+                         n_obs, replace = TRUE, 
+                         prob = as.numeric(table(cdc_clean$age_group)/100))
+```
+
+```{r}
+#creating a list vector for the age_group
+race_origin_list <- unique(cdc_clean$race_origin)
+
+# Variable: States
+# create with probabilities based on real data distribution
+syn_data_MR$race_origin <- sample(race_origin_list, 
+                         n_obs, replace = TRUE, 
+                         prob = as.numeric(table(cdc_clean$race_origin)/100))
+```
+
+```{r}
+# Creating numeric variables based on overall patterns
+# However this breaks the association with the different groups and their association 
+
+#Variable: covid_deaths
+syn_data_MR$covid_deaths <- sample(cdc_clean$covid_deaths, 
+                                    size = n_obs, 
+                                    replace = TRUE)
+                                    
+#Variable: total_deaths
+syn_data_MR$total_deaths <- sample(cdc_clean$total_deaths, 
+                                    size = n_obs, 
+                                    replace = TRUE)
+
+#Variable: pneumonia_deaths
+syn_data_MR$pneumonia_deaths <- sample(cdc_clean$pneumonia_deaths, 
+                                    size = n_obs, 
+                                    replace = TRUE)
+
+#Variable: pneumonia_covid_deaths
+syn_data_MR$pneumonia_covid_deaths <- sample(cdc_clean$pneumonia_covid_deaths, 
+                                    size = n_obs, 
+                                    replace = TRUE)
+
+#Variable: influenza_deaths
+syn_data_MR$influenza_deaths <- sample(cdc_clean$influenza_deaths, 
+                                    size = n_obs, 
+                                    replace = TRUE)
+
+#Variable: pneumonia_influenza_covid_deaths
+syn_data_MR$pneumonia_influenza_covid_deaths <- sample(cdc_clean$pneumonia_influenza_covid_deaths, 
+                                    size = n_obs, 
+                                    replace = TRUE)
+```
+
+# Synthetic data exploration
+
+```{r}
+# Print the first few rows of the generated data
+head(syn_data_MR)
+
+# quick summaries
+summary(syn_data_MR)
+
+dplyr::glimpse(syn_data_MR)  
+```
+
+# Replicating figures using synthetic data
+
+
+```{r}
+# Figure 1
+
+state_totals_MR <- syn_data_MR %>%
+  filter(state != "United States") %>%
+  group_by(state) %>%
+  summarise(total_deaths = sum(total_deaths, na.rm = TRUE), .groups = "drop")
+# this gives us the top 10 states by total deaths, which we can plot in a horizontal bar chart.
+
+top10_MR <- state_totals_MR %>%
+  arrange(desc(total_deaths)) %>%
+  slice_head(n = 10)
+# horizontal bar chart: states on y-axis, total_deaths on x-axis 
+ggplot(top10_MR, aes(x = reorder(state, total_deaths), y = total_deaths, fill = state)) +
+  geom_col() +
+  geom_text(
+    aes(label = comma(total_deaths)),
+    hjust = 1.1,           # move text slightly inside bar
+    color = "white",
+    fontface = "bold",
+    size = 3.5
+  ) +
+  coord_flip() + # flip coordinates for horizontal bars
+  scale_fill_hue() +
+  scale_y_continuous(
+    breaks = seq(0, max(top10$total_deaths, na.rm = TRUE), by = 250000),
+    labels = comma,
+    expand = expansion(mult = c(0, 0.05))
+  ) +
+  labs(
+    title = "Top 10 States by Total Deaths",
+    x = "State",
+    y = "Total Deaths"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.title.x = element_text(face = "bold"),
+    axis.title.y = element_text(face = "bold"),
+    axis.text.y = element_text(face = "bold"),
+    legend.position = "none"
+  )
+```
+
+```{r}
+# Fits for synthetic data
+
+fit1_MR <- lm(covid_deaths ~ age_group, data = syn_data_MR)
+summary(fit1_MR)
+
+fit2_MR <- lm(covid_deaths ~ race_origin, data = syn_data_MR)
+summary(fit2_MR)
+```
+
+```{r}
+# Figure 2
+
+p_age_MR <- syn_data_MR %>%
+  mutate(group = age_group, variable = "Age Group") %>%
+  group_by(variable, group) %>%
+  summarise(covid_deaths = sum(covid_deaths, na.rm = TRUE), .groups = "drop")
+
+p_race_MR <- syn_data_MR %>%
+  mutate(group = race_origin, variable = "Race/Origin Group") %>%
+  group_by(variable, group) %>%
+  summarise(covid_deaths = sum(covid_deaths, na.rm = TRUE), .groups = "drop")
+
+plot_dat_MR <- bind_rows(p_age_MR, p_race_MR)
+ggplot(plot_dat_MR, aes(x = reorder(group, covid_deaths), y = covid_deaths, fill = group)) +
+  geom_col() +
+  coord_flip() +
+  facet_wrap(~variable, scales = "free_y") +
+  scale_fill_hue() +
+  scale_y_continuous(
+    labels = scales::comma,
+    breaks = scales::breaks_pretty(n = 6)
+  ) +
+  labs(
+    title = "COVID-19 Deaths by Age Group and Race/Origin Group",
+    x = "",
+    y = "COVID-19 Deaths"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    strip.text = element_text(face = "bold"),
+    axis.text.y = element_text(size = 9),
+    axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+    legend.position = "none"
+  )
+```
+
+Note: Synthetic data made from original dataset looks very similar, but not taking into account distribution among categories. All code used was an adaptation from the class content and Nalany original code
+MR.
+

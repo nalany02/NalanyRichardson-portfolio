@@ -18,6 +18,8 @@ website:
             file: synthetic-analysis/synthetic-analysis.qmd
           - text: "CDC Data Exercise"
             file: cdcdata-exercise/cdcdata-exercise.qmd
+          - text: "Presenting Netflix Data Exercise"
+            file: presenting-data/presenting-data.qmd
     right:
       - icon: github 
         href: https://github.com/nalany02/NalanyRichardson-portfolio
